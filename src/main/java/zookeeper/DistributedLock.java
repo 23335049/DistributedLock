@@ -132,8 +132,8 @@ public class DistributedLock implements Lock, Watcher {
 
     // 等待锁
     private boolean waitForLock(String prev, long waitTime) throws KeeperException, InterruptedException {
-        Stat stat = zk.exists(ROOT_LOCK + "/" + prev, true);
         this.countDownLatch = new CountDownLatch(1);
+        Stat stat = zk.exists(ROOT_LOCK + "/" + prev, true);
         if (stat != null) {
             // if watch happen before create instance CountDownLatch, this watch express countDownLatch.countDown() will throw NullPointException
             System.out.println(Thread.currentThread().getName() + "等待锁 " + ROOT_LOCK + "/" + prev);
